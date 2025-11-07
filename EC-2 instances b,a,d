@@ -1,3 +1,4 @@
+To install terraform build apply dest
 # Configure the AWS Provider
 provider "aws" {
   access_key = "AKIA2MKOLXORTRRC2JWF"
@@ -14,4 +15,22 @@ resource "aws_instance" "terraformUser" {
   tags = {
     Name = "khushi"
   }
+}
+
+
+deploy docker and build
+Docker.tf
+terraform{
+required_providers{
+docker={
+source="kreuzwerker/docker"
+version="2.14.0"
+}
+}
+}
+provider "docker"{
+host="npipe:////.//pipe//docker_engine"
+}
+resource "docker_image" "redis" {
+name="redis:latest"
 }
