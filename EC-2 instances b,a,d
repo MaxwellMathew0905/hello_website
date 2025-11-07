@@ -34,3 +34,117 @@ host="npipe:////.//pipe//docker_engine"
 resource "docker_image" "redis" {
 name="redis:latest"
 }
+
+
+
+Deploy and manage nginx using tf and docker 
+create folder , create file docker.tf
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0.2"
+    }
+  }
+}
+
+provider "docker" {}
+
+resource "docker_image" "nginx_image" {
+  name         = "nginx:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "nginx_container" {
+  name  = "terraform-nginx-custom"
+  image = docker_image.nginx_image.name
+  
+  ports {
+    internal = 80
+    external = 8082
+  }
+
+  volumes {
+    host_path      = "C:\\Anushka\\index.html"
+    container_path = "/usr/share/nginx/html/index.html"
+  }
+}
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome to Terraform Nginx</title>
+    <style>
+        body {
+            background-color: #e6e6fa;
+            color: #c71585;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello from Nginx!</h1>
+    <p>This page is served using a Docker container created with Terraform by Anushka.</p>
+</body>
+</html>
+open powershell tf plan app dest
+
+
+Create lambda func hello student_name
+create role create lambda function create test event
+def lambda_handler(event, context):
+    # TODO implement
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Hello Rishabh')
+    }
+
+
+
+create lambda func an object has been added 
+create iam role 
+permissions AmazonS3FullAcess
+AWSLambdaBasicExecutionorole
+CloudWatchFullacess
+import json
+import boto3
+
+s3 = boto3.client('s3')   # Create an S3 client
+
+def lambda_handler(event, context):
+    bucket = 's3mockbucketrishabh'     # Define your S3 bucket name
+
+    dataToUpload = {}                  # Initialize an empty dictionary
+
+    # Add key-value pairs to the dictionary
+    dataToUpload['PID']  = '231114'
+    dataToUpload['DEPT'] = 'INFT'
+    dataToUpload['NAME'] = 'RISHABH'
+    dataToUpload['FILE'] = 'ABC 1234'
+
+    # Define the filename, adding the .json extension
+    fileName = 'ABC 1234' + '.json'
+
+    # Convert the dataToUpload dictionary to a JSON byte stream
+    uploadByteStream = bytes(json.dumps(dataToUpload).encode('UTF-8'))
+
+    # Upload the JSON byte stream to S3
+    s3.put_object(Bucket=bucket, Key=fileName, Body=uploadByteStream)
+
+    print(f"Object has been uploaded to {bucket} with key {fileName}")
+
+
+Create lamda fucn using node.js
+export const handler = async (event) => {
+    // TODO implement
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify('Hello Mahima Kasughar'),
+    };
+    return response;
+};
+  
